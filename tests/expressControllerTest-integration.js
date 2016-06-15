@@ -57,7 +57,10 @@ module.exports = {
 		test.expect(1);
 		var app = {
 			get : function(path, method) {
-				test.equal(method.toString(), 'function (req, res) {\n\t\t\t\t\tvar reqKey = req.method.toLowerCase()+req.route.path;\n\t\t\t\t\tif(!self.pathParams[reqKey]) reqKey = \'get\'+req.route.path;\n\t\t\t\t\tvar clonedParams = self.pathParams[reqKey].slice(0);\n\t\t\t\t\tclonedParams = self.translateKeysArrayToValuesArray(clonedParams, req.params);\n\t\t\t\t\tclonedParams.unshift(req, res);\n\t\t\t\t\tself.pathFunctions[reqKey].apply(self, clonedParams);\n\t\t\t\t}');
+				//for windows with its own new line character
+				//test.equal(method.toString(), "function (req, res, next) {\r\n\t\t\t\t\tvar reqKey = req.method.toLowerCase()+req.route.path;\r\n\t\t\t\t\tif(!self.pathParams[reqKey]) reqKey = \'get\'+req.route.path;\r\n\t\t\t\t\tvar clonedParams = self.pathParams[reqKey].slice(0);\r\n\t\t\t\t\tclonedParams = self.translateKeysArrayToValuesArray(clonedParams, req.params);\r\n\t\t\t\t\tif(self.pathArgs[pathKey].length >= 3 && self.pathArgs[pathKey].indexOf('next') > -1) {\r\n\t\t\t\t\t\tclonedParams.unshift(req, res, next);\r\n\t\t\t\t\t} else {\r\n\t\t\t\t\t\tclonedParams.unshift(req, res);\r\n\t\t\t\t\t}\r\n\t\t\t\t\tself.pathFunctions[reqKey].apply(self, clonedParams);\r\n\t\t\t\t}");
+				//for unix
+				test.equal(method.toString(), "function (req, res, next) {\n\t\t\t\t\tvar reqKey = req.method.toLowerCase()+req.route.path;\n\t\t\t\t\tif(!self.pathParams[reqKey]) reqKey = \'get\'+req.route.path;\n\t\t\t\t\tvar clonedParams = self.pathParams[reqKey].slice(0);\n\t\t\t\t\tclonedParams = self.translateKeysArrayToValuesArray(clonedParams, req.params);\n\t\t\t\t\tif(self.pathArgs[pathKey].length >= 3 && self.pathArgs[pathKey].indexOf('next') > -1) {\n\t\t\t\t\t\tclonedParams.unshift(req, res, next);\n\t\t\t\t\t} else {\n\t\t\t\t\t\tclonedParams.unshift(req, res);\n\t\t\t\t\t}\n\t\t\t\t\tself.pathFunctions[reqKey].apply(self, clonedParams);\n\t\t\t\t}");
 			}
 		};
 

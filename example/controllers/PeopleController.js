@@ -23,14 +23,14 @@ module.exports = {
     /*
         Will be translated to get("/people/:id") (parameters automatically extracted from function parameters)
     */
-    get_id : function(req, res, id) {
+    get_id : function(req, res, next, id) {
         res.send("You are requesting the resource with id: " + id);
     },
 
     /*
         Will be translated to get("/people/:id/friends") (if parameter is included in function-name, it will be be included in the same position)
     */
-    get_id_friends : function(req, res, id) {
+    get_id_friends : function(req, res, next, id) {
         res.send("You are requesting the friends of the person with id: " + id); 
     },
     /*
